@@ -3,11 +3,17 @@ xtrest
 
 XTend Rest Mini-Framework: create REST HTTP JSON API's with the power of Xtend language.
 
+It's based on Sven Efftinge's jettyxtension (https://github.com/svenefftinge/jettyxtension). But it extends
+it in order to fully support all HTTP methods.
+
+Originally it was designed in order to create just REST API's, but eventually it could evolve into a full MVC
+"action-based" web frameworks, once template engines are included.
+I will then get similar to Sinatra, Padrino, Play, etc.
 
 Example
 ======
 
-```
+```xtend
 /**
  * Ejemplo de controller REST/JSON en xtrest
  * 
