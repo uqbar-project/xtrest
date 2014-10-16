@@ -1,14 +1,14 @@
 xtrest
 ======
 
-XTend Rest Mini-Framework: create REST HTTP JSON API's with the power of Xtend language.
+XTend Rest Mini-Framework: create REST HTTP JSON API's with the power of [Xtend language](http://www.eclipse.org/xtend/).
 
 It's based on Sven Efftinge's jettyxtension (https://github.com/svenefftinge/jettyxtension). But it extends
 it in order to fully support all HTTP methods.
 
 Originally it was designed in order to create just REST API's, but eventually it could evolve into a full MVC
 "action-based" web frameworks, once template engines are included.
-I will then get similar to Sinatra, Padrino, Play, etc.
+I will then get similar to [Padrino](http://www.padrinorb.com), [Sinatra](http://www.sinatrarb.com), [Play2](https://www.playframework.com), etc.
 
 Example
 ======
@@ -115,4 +115,7 @@ There's a list of things that are still not supported but we will implement shor
 * Parameters type conversions (only strings supported right now)
 * Variable type conversions (only string supported. Also as it's not explicitely declared as a method param, there no place to declare the type. Proposed solution
 "/libros/:(id|int)"
+* Handler logic to respond with a pretty HTML including the list of supported methods and URLs whenever you don't hit any. (like play2 does https://www.playframework.com/documentation/2.0/JavaRouting)
+* Default values for parameters / variables 
+
  
