@@ -60,3 +60,56 @@ class LibrosController {
 	
 }
 ```
+
+Usage
+=======
+
+You need to add the following maven repository:
+
+```xml
+ <repositories>
+        <repository>
+            <id>uqbar-wiki.org-releases</id>
+            <name>uqbar-wiki.org-releases</name>
+            <url>http://uqbar-wiki.org/mvn/releases</url>
+        </repository>
+        <repository>
+            <snapshots/>
+            <id>uqbar-wiki.org-snapshots</id>
+            <name>uqbar-wiki.org-snapshots</name>
+            <url>http://uqbar-wiki.org/mvn/snapshots</url>
+        </repository>
+ </repositories>
+```
+
+And the this dependency:
+
+```xml
+ <dependency>
+	<groupId>org.uqbar-project</groupId>
+	<artifactId>xtrest</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+ </dependency>
+```
+
+
+Documentation
+=======
+
+// TODO:
+* HttpHandler
+* Http Methods as annotations: Get, Delete
+* URL Variables
+* Parameters
+* Results
+* Directly using the request / response / session.
+* Filters
+* JSON
+
+TODO
+======
+
+There's a list of things that are still not supported but we will implement shortly:
+* Other http methods: Post, Put
+* Filters
+ 
