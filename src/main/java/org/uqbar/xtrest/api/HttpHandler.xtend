@@ -8,24 +8,67 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.eclipse.jetty.server.Request
-import org.eclipse.jetty.server.handler.AbstractHandler
-import org.eclipse.xtend.lib.macro.Active
 import org.eclipse.xtend.lib.macro.TransformationContext
 import org.eclipse.xtend.lib.macro.TransformationParticipant
 import org.eclipse.xtend.lib.macro.declaration.MutableClassDeclaration
 import org.eclipse.xtend.lib.macro.declaration.MutableMethodDeclaration
 import org.eclipse.xtend.lib.macro.declaration.Type
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure1
+import org.uqbar.xtrest.api.annotation.Delete
+import org.uqbar.xtrest.api.annotation.Get
 import org.uqbar.xtrest.result.ResultFactory
+import org.uqbar.xtrest.api.annotation.Controller
+import org.eclipse.jetty.server.handler.AbstractHandler
 
-@Active(HttpHandlerProcessor)
-annotation HttpHandler {
-}
-
-annotation Get { String value }
-annotation Delete { String value }
-
-class HttpHandlerProcessor implements TransformationParticipant<MutableClassDeclaration> {
+/**
+ * The annotation processor for @link Controller.
+ * Like a macro, it participates in the java code construction,
+ * so it can generate code.
+ * 
+ * Basically it makes your class extends jetty's @link AbstractHandler
+ * So it generates the #handle method which will have an "if-then" block
+ * for each action method (annotated with @Get, @Post, etc).
+ * 
+ * For each of them it generates something like
+ * 
+ * <pre>
+ * if (annotation.pattern.matches(url) && request.isVerb(annotation.verb) {
+ * 		this.xxxxx(url, baseRequest, request, response)
+ * }
+ * </pre>
+ * 
+ * Where "xxx" is the name of the original method.
+ * 
+ * So, notice that it changes your original method, introducing parameters.
+ * 
+ * <h3>URL variables</h3>
+ * 
+ * In case the pattern defines variables, then it will introduce them as method parameters
+ * Example:
+ * 
+ * <pre>
+ * 	@Get("/books/:id")
+ *  def getBook()
+ * </pre>
+ * 
+ * Will actually be transformed to a method
+ * <pre>
+ *   public Result getBook(String id, String url, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
+ * </pre>
+ *
+ * <h3>HTTP Parameters</h3>
+ * 
+ * In case you need to handle incoming HTTP parameters then you just need
+ * to declare them as method parameters. They will be kept in the generated method.
+ * <pre>
+ * 	@Get("/books")
+ *  def getBook(String id)
+ * </pre>
+ * 
+ * Will have the same effect as the previous example.
+ * 
+ * @author jfernandes
+ */
+class ControllerAnnotationProcessor implements TransformationParticipant<MutableClassDeclaration> {
 	static val verbs = #[Get, Delete]
 	
 	override doTransform(List<? extends MutableClassDeclaration> annotatedTargetElements, extension TransformationContext context) {

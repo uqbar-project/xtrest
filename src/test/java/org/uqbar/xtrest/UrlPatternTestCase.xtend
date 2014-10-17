@@ -2,13 +2,13 @@ package org.uqbar.xtrest
 
 import org.junit.Assert
 import org.junit.Test
-import org.uqbar.xtrest.api.HttpHandlerProcessor
+import org.uqbar.xtrest.api.ControllerAnnotationProcessor
 
 /**
  * @author jfernandes
  */
 class UrlPatternTestCase extends Assert {
-	var processor = new HttpHandlerProcessor()
+	var processor = new ControllerAnnotationProcessor()
 	
 	@Test
 	def testSimpleUrlWithoutVariables() {

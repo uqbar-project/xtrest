@@ -7,14 +7,14 @@ import java.util.List;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.junit.Assert;
 import org.junit.Test;
-import org.uqbar.xtrest.api.HttpHandlerProcessor;
+import org.uqbar.xtrest.api.ControllerAnnotationProcessor;
 
 /**
  * @author jfernandes
  */
 @SuppressWarnings("all")
 public class UrlPatternTestCase extends Assert {
-  private HttpHandlerProcessor processor = new HttpHandlerProcessor();
+  private ControllerAnnotationProcessor processor = new ControllerAnnotationProcessor();
   
   @Test
   public void testSimpleUrlWithoutVariables() {
