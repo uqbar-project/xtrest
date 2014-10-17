@@ -77,8 +77,8 @@ class HttpHandlerProcessor implements TransformationParticipant<MutableClassDecl
 							«ENDFOR»
 							
 							
-						    Procedure1<? super HttpServletResponse> result = «m.simpleName»(«m.httpParameters.filter[!variables.contains(simpleName)].map[simpleName + ', '].join»«variables.map[it+', '].join»target, baseRequest, request, response);
-						    result.apply(response);
+						    «toJavaCode(newTypeReference(Result))» result = «m.simpleName»(«m.httpParameters.filter[!variables.contains(simpleName)].map[simpleName + ', '].join»«variables.map[it+', '].join»target, baseRequest, request, response);
+						    result.process(response);
 						    
 						    baseRequest.setHandled(true);
 						}

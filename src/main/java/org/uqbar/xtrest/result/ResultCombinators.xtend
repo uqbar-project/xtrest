@@ -1,22 +1,28 @@
 package org.uqbar.xtrest.result
 
 import javax.servlet.http.HttpServletResponse
+import org.uqbar.xtrest.api.Result
 
 /**
+ * Utilities to combine different Result objects.
  * 
  * @author jfernandes
  */
 class ResultCombinators {
-	//an alias would be really appreaciated
-	//	alias Result -> (HttpServletResponse)=>void
 
-	def static (HttpServletResponse)=>void operator_doubleGreaterThan((HttpServletResponse)=>void one, (HttpServletResponse)=>void then) {
-		[r| one.apply(r) ; then.apply(r) ]
+	def static Result operator_doubleGreaterThan(Result one, Result then) {
+		[r| one.process(r) ; then.process(r) ]
 	}
 	
-	// just for typing a closure without specifying the param type
+	/**
+	 * Adapts a closure into the Result interface.
+	 */
 	def static result((HttpServletResponse)=>void responseConfigurer) {
-		responseConfigurer
+		new Result() {
+			override process(HttpServletResponse response) {
+				responseConfigurer.apply(response)
+			}
+		}
 	}
 	
 }
