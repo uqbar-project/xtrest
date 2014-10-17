@@ -19,7 +19,7 @@ Example
  * 
  * @author jfernandes
  */
-@HttpHandler
+@Controller
 class LibrosController {
 	extension JSONUtils = new JSONUtils
 	
