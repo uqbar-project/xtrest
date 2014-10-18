@@ -16,6 +16,7 @@ import org.eclipse.xtend.lib.macro.declaration.Type
 import org.uqbar.xtrest.api.annotation.Delete
 import org.uqbar.xtrest.api.annotation.Get
 import org.uqbar.xtrest.result.ResultFactory
+import org.uqbar.xtrest.api.annotation.Post
 
 /**
  * The annotation processor for @link Controller.
@@ -67,7 +68,7 @@ import org.uqbar.xtrest.result.ResultFactory
  * @author jfernandes
  */
 class ControllerAnnotationProcessor implements TransformationParticipant<MutableClassDeclaration> {
-	static val verbs = #[Get, Delete]
+	static val verbs = #[Get, Post, Delete]
 	
 	override doTransform(List<? extends MutableClassDeclaration> annotatedTargetElements, extension TransformationContext context) {
 		for (clazz : annotatedTargetElements) {

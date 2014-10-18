@@ -155,7 +155,7 @@ You need to add the following maven repository:
  </repositories>
 ```
 
-And the this dependency:
+And then this dependency:
 
 ```xml
  <dependency>

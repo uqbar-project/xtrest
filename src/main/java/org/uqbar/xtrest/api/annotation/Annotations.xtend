@@ -32,8 +32,9 @@ annotation Controller {
 // *****************************************
 
 annotation Get { String value }
+annotation Post { String value }
 annotation Delete { String value }
 
 // TODO
-// Post, PUT
+// PUT
 
