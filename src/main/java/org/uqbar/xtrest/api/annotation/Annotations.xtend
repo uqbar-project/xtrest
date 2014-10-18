@@ -4,6 +4,8 @@ import java.lang.annotation.ElementType
 import java.lang.annotation.Target
 import org.eclipse.xtend.lib.macro.Active
 import org.uqbar.xtrest.api.ControllerAnnotationProcessor
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
 
 /**
  * Marks a given class as being an HTTP controller.
@@ -23,6 +25,7 @@ import org.uqbar.xtrest.api.ControllerAnnotationProcessor
  */
 @Active(ControllerAnnotationProcessor)
 @Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
 annotation Controller { 
 	
 }

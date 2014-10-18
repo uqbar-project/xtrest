@@ -76,11 +76,12 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 			
 			createHandlerMethod(clazz, context)
 			addParametersToActionMethods(clazz, context)
+			
+			generatePageNotFound(clazz, context)
 		}
 	}
 	
 	def addParametersToActionMethods(MutableClassDeclaration clazz, extension TransformationContext context) {
-		
 		clazz.httpMethods(context).forEach [
 			getVariables(context).forEach [v| addParameter(v, string) ]
 			addParameter('target', string)
@@ -102,35 +103,76 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 			
 			body = ['''
 				«FOR m : clazz.httpMethods(context)»
-					{
-						«toJavaCode(newTypeReference(Matcher))» matcher = 
-							«toJavaCode(newTypeReference(Pattern))».compile("«m.getPattern(context)»").matcher(target);
-						if (request.getMethod().equalsIgnoreCase("«m.httpAnnotation(context).simpleName»") && matcher.matches()) {
-							// take parameters from request
-							«val variables = m.getVariables(context) »
-							«FOR p : m.httpParameters.filter[!variables.contains(simpleName)]»
-								String «p.simpleName» = request.getParameter("«p.simpleName»");
-							«ENDFOR»
-							
-							// take variables from url
-							«var i = 0»
-							«FOR v : variables»
-								String «v» = matcher.group(«i=i+1»);
-							«ENDFOR»
-							
-							
-						    «toJavaCode(newTypeReference(Result))» result = «m.simpleName»(«m.httpParameters.filter[!variables.contains(simpleName)].map[simpleName + ', '].join»«variables.map[it+', '].join»target, baseRequest, request, response);
-						    result.process(response);
-						    
-						    baseRequest.setHandled(true);
-						}
+				{
+					«toJavaCode(newTypeReference(Matcher))» matcher = 
+						«toJavaCode(newTypeReference(Pattern))».compile("«m.getPattern(context)»").matcher(target);
+					if (request.getMethod().equalsIgnoreCase("«m.httpAnnotation(context).simpleName»") && matcher.matches()) {
+						// take parameters from request
+						«val variables = m.getVariables(context) »
+						«FOR p : m.httpParameters.filter[!variables.contains(simpleName)]»
+							String «p.simpleName» = request.getParameter("«p.simpleName»");
+						«ENDFOR»
+						
+						// take variables from url
+						«var i = 0»
+						«FOR v : variables»
+							String «v» = matcher.group(«i=i+1»);
+						«ENDFOR»
+						
+						
+					    «toJavaCode(newTypeReference(Result))» result = «m.simpleName»(«m.httpParameters.filter[!variables.contains(simpleName)].map[simpleName + ', '].join»«variables.map[it+', '].join»target, baseRequest, request, response);
+					    result.process(response);
+					    
+					    baseRequest.setHandled(true);
+					    return;
 					}
+				}
 				«ENDFOR»
+				this.pageNotFound(baseRequest, request, response);
 			''']
 		]
 	}
 	
-//	
+	def generatePageNotFound(MutableClassDeclaration clazz, extension TransformationContext context) {
+		clazz.addMethod("pageNotFound", [
+			returnType = primitiveVoid
+			
+			addParameter('baseRequest', newTypeReference(Request)) 
+			addParameter('request', newTypeReference(HttpServletRequest)) 
+			addParameter('response', newTypeReference(HttpServletResponse))
+			
+			setExceptions(newTypeReference(IOException), newTypeReference(ServletException))
+			
+			body = ['''
+				response.getWriter().write(
+				"<html><head><title>XtRest - Page Not Found!</title></head>" 
+				+"<body>"
+				+"	<h1>Page Not Found !</h1>"
+				+"	Supported resources:"
+				+"	<table>"
+				+"		<thead><tr><th>Verb</th><th>URL</th><th>Parameters</th></tr></thead>"
+				+"		<tbody>"
+						«FOR m : clazz.httpMethods(context)»
+				+"			<tr>"
+				+"				<td>«m.httpAnnotation(context).simpleName.toUpperCase»</td>"
+				+"				<td>«m.getUrl(context)»</td>"
+				+"				<td>«m.httpParameters.map[simpleName].join(', ')»</td>"
+				+"			</tr>"
+						«ENDFOR»
+				+"		</tbody>"
+				+"	</table>"
+				+"</body>"
+				);
+				response.setStatus(404);
+				baseRequest.setHandled(true);
+			''']
+		])
+	}
+	
+	
+	// ***************************************************
+	// ** Utility methods for interpreting annotations
+	// ***************************************************	
 	
 	def httpMethods(MutableClassDeclaration clazz, extension TransformationContext context) {
 		val verbAnnotations = verbs.map[findTypeGlobally]
@@ -139,18 +181,22 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 		].flatten
 	}
 	
+	private def getUrl(MutableMethodDeclaration m, extension TransformationContext context) {
+		m.findAnnotation(m.httpAnnotation(context)).getValue('value').toString
+	}
+	
 	static val ADDED_PARAMETER = #['target', 'baseRequest', 'request', 'response']
 	
 	def getHttpParameters(MutableMethodDeclaration m) {
-		m.parameters.filter[ !ADDED_PARAMETER.contains(simpleName)]
+		m.parameters.filter[ !ADDED_PARAMETER.contains(simpleName) ]
+	}
+
+	private def getPattern(MutableMethodDeclaration m, extension TransformationContext context) {
+		m.getVariablesAndGroupedPattern(context).key
 	}
 	
 	private def getVariables(MutableMethodDeclaration m, extension TransformationContext context) {
-		return m.getVariablesAndGroupedPattern(m.httpAnnotation(context)).value
-	}
-	
-	private def getPattern(MutableMethodDeclaration m, extension TransformationContext context) {
-		return m.getVariablesAndGroupedPattern(m.httpAnnotation(context)).key
+		m.getVariablesAndGroupedPattern(context).value
 	}
 	
 	def Type httpAnnotation(MutableMethodDeclaration m, extension TransformationContext context) {
@@ -158,9 +204,8 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 		verbAnnotations.findFirst[m.findAnnotation(it) != null]
 	}
 	
-	private def getVariablesAndGroupedPattern(MutableMethodDeclaration m, Type annotationType) {
-		var pattern = m.findAnnotation(annotationType).getValue('value').toString
-		createRegexp(pattern)
+	private def getVariablesAndGroupedPattern(MutableMethodDeclaration m, extension TransformationContext context) {
+		createRegexp(m.getUrl(context))
 	}
 	
 	def createRegexp(String pattern) {
