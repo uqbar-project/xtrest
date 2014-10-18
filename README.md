@@ -10,7 +10,7 @@ Originally it was designed in order to create just REST API's, but eventually it
 "action-based" web frameworks, once template engines are included.
 I will then get similar to [Padrino](http://www.padrinorb.com), [Sinatra](http://www.sinatrarb.com), [Play2](https://www.playframework.com), etc.
 
-Example
+REST JSON API Example
 ======
 
 ```xtend
@@ -61,6 +61,65 @@ class LibrosController {
 }
 ```
 
+Sample Webapp with server-side templating
+=======
+
+This example shows that xtrest can even be used for whole MVC "server-centered" apps, where
+the server generates HTML using [JMustache](https://github.com/samskivert/jmustache) templating engine
+
+```xtend
+@Controller
+class ConversorController {
+	
+	@Get("/conversor")
+	def index() {
+		val data = #{
+			"millas" -> "0",
+			"kilometros" -> "<< introducir millas >>"
+		}
+		
+		render('conversor.html', data)
+	}
+	
+	@Get("/convertir")
+	def convertir(String millas) {
+		render('conversor.html', #{
+			"millas" -> millas,
+			"kilometros" -> Integer.valueOf(millas) * 1.609344
+		})
+	}
+	
+	def static void main(String[] args) {
+		XTRest.start(ConversorController, 9000)
+	}
+	
+}
+```
+
+And then the template:
+
+```html
+<html>
+<body>
+<h2>Convertir</h2>
+<form action="/convertir" method="get">
+	<fieldset>
+			<label for="titulo">Millas</label> 
+			<input 
+				required="true"
+				name="millas" class="form-control" 
+				placeholder="23"
+				autofocus="autofocus" value="{{millas}}">
+
+			<label for="kilometros">Kilometros</label>
+			<p class="lead">{{kilometros}}</p>
+
+		<button type="submit" class="btn btn-primary">Convertir</button>
+	</fieldset>
+</form>
+```
+
+
 Usage
 =======
 
@@ -105,6 +164,7 @@ Documentation
 * Directly using the request / response / session.
 * Filters
 * JSON
+* View: Templating
 
 TODO
 ======

@@ -1,8 +1,14 @@
 package org.uqbar.xtrest.result
 
-import static extension org.uqbar.xtrest.result.ResultCombinators.*
-import static javax.servlet.http.HttpServletResponse.*
+import com.samskivert.mustache.Mustache
+import java.nio.channels.Channels
 import org.eclipse.jetty.server.handler.AbstractHandler
+import org.eclipse.jetty.util.resource.Resource
+import org.uqbar.xtrest.api.XTRest
+
+import static javax.servlet.http.HttpServletResponse.*
+
+import static extension org.uqbar.xtrest.result.ResultCombinators.*
 
 /**
  * Utility methods for creating HTTP Result objects.
@@ -42,4 +48,19 @@ abstract class ResultFactory extends AbstractHandler {
 	def static body(String content) { result [ writer.write(content) ] }
 	
 	def static header(String name, String value) { result [ setHeader(name, value) ] }
+	
+	
+	// ****************************
+	// ** View (templating)
+	// ****************************	
+	
+	def static render(String templatePath, Object data) {
+		// eventually we should have pluggable template engines
+		// being able to support differents
+		ok >> [response | 
+			val reader = Resource.newResource(XTRest.RESOURCE_BASE + '/' + templatePath).readableByteChannel
+			val template = Mustache.compiler.compile(Channels.newReader(reader, 'UTF-8'))
+			template.execute(data, response.writer)
+		]
+	}
 }

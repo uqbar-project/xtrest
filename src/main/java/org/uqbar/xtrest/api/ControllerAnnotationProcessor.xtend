@@ -16,8 +16,6 @@ import org.eclipse.xtend.lib.macro.declaration.Type
 import org.uqbar.xtrest.api.annotation.Delete
 import org.uqbar.xtrest.api.annotation.Get
 import org.uqbar.xtrest.result.ResultFactory
-import org.uqbar.xtrest.api.annotation.Controller
-import org.eclipse.jetty.server.handler.AbstractHandler
 
 /**
  * The annotation processor for @link Controller.
