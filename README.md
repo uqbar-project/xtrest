@@ -179,12 +179,13 @@ Documentation
 * Filters
 * JSON
 * View: Templating
+* @Body parameter
+* notfound page
 
 TODO
 ======
 
 There's a list of things that are still not supported but we will implement shortly:
-* Other http methods: Post, Put
 * Filters
 * Parameters type conversions (only strings supported right now)
 * Variable type conversions (only string supported. Also as it's not explicitely declared as a method param, there no place to declare the type. Proposed solution
