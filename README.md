@@ -13,6 +13,8 @@ I will then get similar to [Padrino](http://www.padrinorb.com), [Sinatra](http:/
 REST JSON API Example
 ======
 
+The following example controller implements a REST JSON webservice for books.
+
 ```xtend
 /**
  * Ejemplo de controller REST/JSON en xtrest
@@ -59,6 +61,18 @@ class LibrosController {
 	}
 	
 }
+```
+
+To test it:
+
+```bash
+curl http://localhost:9000/libros
+```
+
+Should give you the following output:
+
+```javascript
+[{"id":0,"titulo":"Las venas abiertas de Am?rica Latina","autor":"Eduardo Galeano"},{"id":1,"titulo":"Guerra y Paz","autor":"Le?n Tolstoi"},{"id":2,"titulo":"Patas Arriba","autor":"Eduardo Galeano"},{"id":3,"titulo":"El f?tbol a sol y a sombra","autor":"Eduardo Galeano"},{"id":4,"titulo":"Historia del siglo XX","autor":"Eric Hobsbawm"},{"id":5,"titulo":"Ficciones","autor":"Jorge Luis Borges"},{"id":6,"titulo":"El Aleph","autor":"Jorge Luis Borges"},{"id":7,"titulo":"La invenci?n de Morel","autor":"Adolfo Bioy Casares"},{"id":8,"titulo":"Rayuela","autor":"Julio Cort?zar"},{"id":9,"titulo":"El bar?n rampante","autor":"Italo Calvino"},{"id":10,"titulo":"El vizconde demediado","autor":"Italo Calvino"},{"id":11,"titulo":"100 a?os de soledad","autor":"Gabriel Garc?a M?rquez"},{"id":12,"titulo":"Un d?a en la vida de Ivan Denisovich","autor":"Alexander Solyenitsin"},{"id":13,"titulo":"El d?a del arquero","autor":"Juan Sasturain"}]
 ```
 
 Sample Webapp with server-side templating
