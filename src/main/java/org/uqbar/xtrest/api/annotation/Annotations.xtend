@@ -34,8 +34,19 @@ annotation Controller {
 // ** Method annotations for http verbs
 // *****************************************
 
+@Target(ElementType.METHOD)
 annotation Get { String value }
+
+@Target(ElementType.METHOD)
 annotation Post { String value }
+
+@Target(ElementType.PARAMETER)
+annotation Body {}
+
+@Target(ElementType.METHOD)
+annotation Put { String value }
+
+@Target(ElementType.METHOD)
 annotation Delete { String value }
 
 // TODO

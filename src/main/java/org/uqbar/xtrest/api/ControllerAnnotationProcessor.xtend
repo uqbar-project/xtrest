@@ -17,6 +17,9 @@ import org.uqbar.xtrest.api.annotation.Delete
 import org.uqbar.xtrest.api.annotation.Get
 import org.uqbar.xtrest.result.ResultFactory
 import org.uqbar.xtrest.api.annotation.Post
+import org.uqbar.xtrest.api.annotation.Put
+import org.eclipse.xtend.lib.macro.declaration.MutableParameterDeclaration
+import org.uqbar.xtrest.api.annotation.Body
 
 /**
  * The annotation processor for @link Controller.
@@ -68,7 +71,7 @@ import org.uqbar.xtrest.api.annotation.Post
  * @author jfernandes
  */
 class ControllerAnnotationProcessor implements TransformationParticipant<MutableClassDeclaration> {
-	static val verbs = #[Get, Post, Delete]
+	static val verbs = #[Get, Post, Delete, Put]
 	
 	override doTransform(List<? extends MutableClassDeclaration> annotatedTargetElements, extension TransformationContext context) {
 		for (clazz : annotatedTargetElements) {
@@ -110,7 +113,11 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 						// take parameters from request
 						«val variables = m.getVariables(context) »
 						«FOR p : m.httpParameters.filter[!variables.contains(simpleName)]»
+							«IF p.isBodyParameter(context) »
+							String «p.simpleName» = readBodyAsString(request);
+							«ELSE»
 							String «p.simpleName» = request.getParameter("«p.simpleName»");
+							«ENDIF»
 						«ENDFOR»
 						
 						// take variables from url
@@ -131,6 +138,10 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 				this.pageNotFound(baseRequest, request, response);
 			''']
 		]
+	}
+	
+	def boolean isBodyParameter(MutableParameterDeclaration param, extension TransformationContext context) {
+		param.findAnnotation(findTypeGlobally(Body)) != null
 	}
 	
 	def generatePageNotFound(MutableClassDeclaration clazz, extension TransformationContext context) {

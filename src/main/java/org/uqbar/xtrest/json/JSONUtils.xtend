@@ -18,4 +18,8 @@ class JSONUtils {
 		mapper.writeValueAsString(obj)
 	}
 	
+	def <T> fromJson(String json, Class<T> expectedType) {
+		mapper.readValue(json, expectedType)
+	}
+	
 }

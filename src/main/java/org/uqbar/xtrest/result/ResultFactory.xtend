@@ -9,6 +9,8 @@ import org.uqbar.xtrest.api.XTRest
 import static javax.servlet.http.HttpServletResponse.*
 
 import static extension org.uqbar.xtrest.result.ResultCombinators.*
+import javax.servlet.http.HttpServletRequest
+import org.apache.commons.lang.StringUtils
 
 /**
  * Utility methods for creating HTTP Result objects.
@@ -27,6 +29,9 @@ abstract class ResultFactory extends AbstractHandler {
 	// ****************************
 	// ** 4XX - 
 	// ****************************
+	
+	def static badRequest() { result [ status = SC_BAD_REQUEST ] }
+	def static badRequest(String content) { badRequest >> body(content) }
 	
 	def static forbidden() { result [ status = SC_FORBIDDEN ] }
 	def static forbidden(String content) { forbidden >> body(content) }
@@ -62,5 +67,17 @@ abstract class ResultFactory extends AbstractHandler {
 			val template = Mustache.compiler.compile(Channels.newReader(reader, 'UTF-8'))
 			template.execute(data, response.writer)
 		]
+	}
+	
+	def readBodyAsString(HttpServletRequest request) {
+		// Read from request
+    	val buffer = new StringBuilder
+    	val reader = request.reader
+    	var line = reader.readLine
+    	while (line != null) {
+        	buffer.append(line)
+        	line = reader.readLine
+    	}
+    	buffer.toString
 	}
 }
