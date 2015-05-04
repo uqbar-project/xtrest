@@ -3,6 +3,7 @@ package org.uqbar.xtrest
 import org.junit.Assert
 import org.junit.Test
 import org.uqbar.xtrest.api.ControllerAnnotationProcessor
+import java.util.regex.Pattern
 
 /**
  * @author jfernandes
@@ -21,9 +22,9 @@ class UrlPatternTestCase extends Assert {
 	@Test 
 	def testOneVar() {
 		var regexp = processor.createRegexp("/libros/:id")
-		assertEquals('\\\\/libros\\\\/(\\\\w+)' -> #['id'], regexp)
+		assertEquals('\\/libros\\/(\\w+)' -> #['id'], regexp)
 		
-		assertTrue(regexp.key.matches("/libros/2"))
+		assertTrue(Pattern.compile("\\/libros\\/(\\w+)").matcher("/libros/2").matches)
 	}
 	
 }
