@@ -2,6 +2,7 @@ package org.uqbar.xtrest.result
 
 import com.samskivert.mustache.Mustache
 import java.nio.channels.Channels
+import javax.servlet.http.HttpServletRequest
 import org.eclipse.jetty.server.handler.AbstractHandler
 import org.eclipse.jetty.util.resource.Resource
 import org.uqbar.xtrest.api.XTRest
@@ -9,8 +10,6 @@ import org.uqbar.xtrest.api.XTRest
 import static javax.servlet.http.HttpServletResponse.*
 
 import static extension org.uqbar.xtrest.result.ResultCombinators.*
-import javax.servlet.http.HttpServletRequest
-import org.apache.commons.lang.StringUtils
 
 /**
  * Utility methods for creating HTTP Result objects.

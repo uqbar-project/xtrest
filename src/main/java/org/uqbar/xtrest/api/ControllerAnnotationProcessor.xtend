@@ -226,8 +226,8 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 		val variables = newArrayList
 		while (variableMatcher.find) {
 			variables += variableMatcher.group.substring(1)
-			builder.append(pattern.substring(i, variableMatcher.start).replace('/','\\\\/'))
-			builder.append("(\\\\w+)")
+			builder.append(pattern.substring(i, variableMatcher.start).replace('/','\\/'))
+			builder.append("(\\w+)")
 			i = variableMatcher.end
 		}
 		if (i < pattern.length)
