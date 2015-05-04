@@ -1,3 +1,5 @@
+[![Travis](https://travis-ci.org/uqbar-project/xtrest.svg)](https://travis-ci.org/uqbar-project/xtrest.svg)
+
 xtrest
 ======
 
