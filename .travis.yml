@@ -7,4 +7,4 @@ before_install:
 - gpg --import travis.gpg
 after_success:
 - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && mvn deploy
-- [[ $TRAVIS_TAG == v[0-9.]* ]] && mvn clean deploy -Prelease
+- [[ $TRAVIS_TAG == xtrest'-'[0-9.]* ]] && mvn clean deploy -Prelease
