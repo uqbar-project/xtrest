@@ -156,23 +156,23 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 			
 			body = ['''
 				response.getWriter().write(
-				"<html><head><title>XtRest - Page Not Found!</title></head>" 
-				+"<body>"
-				+"	<h1>Page Not Found !</h1>"
-				+"	Supported resources:"
-				+"	<table>"
-				+"		<thead><tr><th>Verb</th><th>URL</th><th>Parameters</th></tr></thead>"
-				+"		<tbody>"
-						«FOR m : clazz.httpMethods(context)»
-				+"			<tr>"
-				+"				<td>«m.httpAnnotation(context).simpleName.toUpperCase»</td>"
-				+"				<td>«m.getUrl(context)»</td>"
-				+"				<td>«m.httpParameters.map[simpleName].join(', ')»</td>"
-				+"			</tr>"
-						«ENDFOR»
-				+"		</tbody>"
-				+"	</table>"
-				+"</body>"
+					"<html><head><title>XtRest - Page Not Found!</title></head>" 
+					+ "<body>"
+					+ "	<h1>Page Not Found !</h1>"
+					+ "	Supported resources:"
+					+ "	<table>"
+					+ "		<thead><tr><th>Verb</th><th>URL</th><th>Parameters</th></tr></thead>"
+					+ "		<tbody>"
+					«FOR m : clazz.httpMethods(context)»
+						+ "			<tr>"
+						+ "				<td>«m.httpAnnotation(context).simpleName.toUpperCase»</td>"
+						+ "				<td>«m.getUrl(context)»</td>"
+						+ "				<td>«m.httpParameters.map[simpleName].join(', ')»</td>"
+						+ "			</tr>"
+					«ENDFOR»
+					+ "		</tbody>"
+					+ "	</table>"
+					+ "</body>"
 				);
 				response.setStatus(404);
 				baseRequest.setHandled(true);
