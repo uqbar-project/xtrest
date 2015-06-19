@@ -11,9 +11,9 @@ import org.uqbar.xtrest.api.Result
 class ResultCombinators {
 
 	def static Result operator_doubleGreaterThan(Result one, Result then) {
-		[r| one.process(r) ; then.process(r) ]
+		[r|one.process(r); then.process(r)]
 	}
-	
+
 	/**
 	 * Adapts a closure into the Result interface.
 	 */
@@ -24,5 +24,5 @@ class ResultCombinators {
 			}
 		}
 	}
-	
+
 }

@@ -130,6 +130,7 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 					    «toJavaCode(newTypeReference(Result))» result = «m.simpleName»(«m.httpParameters.filter[!variables.contains(simpleName)].map[simpleName + ', '].join»«variables.map[it+', '].join»target, baseRequest, request, response);
 					    result.process(response);
 					    
+						response.addHeader("Access-Control-Allow-Origin", "*");
 					    baseRequest.setHandled(true);
 					    return;
 					}
