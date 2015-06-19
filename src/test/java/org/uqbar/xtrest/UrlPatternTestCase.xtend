@@ -22,7 +22,7 @@ class UrlPatternTestCase extends Assert {
 	@Test 
 	def testOneVar() {
 		var regexp = processor.createRegexp("/libros/:id")
-		assertEquals('\\/libros\\/(\\w+)' -> #['id'], regexp)
+		assertEquals('/libros/(\\\\w+)' -> #['id'], regexp)
 		
 		assertTrue(Pattern.compile("\\/libros\\/(\\w+)").matcher("/libros/2").matches)
 	}
