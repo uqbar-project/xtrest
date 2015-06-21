@@ -1,4 +1,4 @@
-[![Travis](https://travis-ci.org/uqbar-project/xtrest.svg)](https://travis-ci.org/uqbar-project/xtrest.svg)
+[![Build Status](https://travis-ci.org/uqbar-project/xtrest.svg?branch=master)](https://travis-ci.org/uqbar-project/xtrest)
 
 xtrest
 ======
