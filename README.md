@@ -139,25 +139,7 @@ And then the template:
 Usage
 =======
 
-You need to add the following maven repository:
-
-```xml
- <repositories>
-        <repository>
-            <id>uqbar-wiki.org-releases</id>
-            <name>uqbar-wiki.org-releases</name>
-            <url>http://uqbar-wiki.org/mvn/releases</url>
-        </repository>
-        <repository>
-            <snapshots/>
-            <id>uqbar-wiki.org-snapshots</id>
-            <name>uqbar-wiki.org-snapshots</name>
-            <url>http://uqbar-wiki.org/mvn/snapshots</url>
-        </repository>
- </repositories>
-```
-
-And then this dependency:
+You need to add this dependency to your `pom.xml` file:
 
 ```xml
  <dependency>
@@ -166,7 +148,6 @@ And then this dependency:
   	<version>0.0.1-SNAPSHOT</version>
  </dependency>
 ```
-
 
 Documentation
 =======
