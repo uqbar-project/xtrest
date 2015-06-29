@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/uqbar-project/xtrest.svg?branch=master)](https://travis-ci.org/uqbar-project/xtrest)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.uqbar/xtrest/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.uqbar/xtrest/)
 
 xtrest
 ======
