@@ -140,31 +140,13 @@ And then the template:
 Usage
 =======
 
-You need to add the following maven repository:
-
-```xml
- <repositories>
-        <repository>
-            <id>uqbar-wiki.org-releases</id>
-            <name>uqbar-wiki.org-releases</name>
-            <url>http://uqbar-wiki.org/mvn/releases</url>
-        </repository>
-        <repository>
-            <snapshots/>
-            <id>uqbar-wiki.org-snapshots</id>
-            <name>uqbar-wiki.org-snapshots</name>
-            <url>http://uqbar-wiki.org/mvn/snapshots</url>
-        </repository>
- </repositories>
-```
-
-And then this dependency:
+You need to add the following maven dependency:
 
 ```xml
  <dependency>
-	<groupId>org.uqbar-project</groupId>
+	<groupId>org.uqbar</groupId>
 	<artifactId>xtrest</artifactId>
-  	<version>0.0.1-SNAPSHOT</version>
+  	<version>0.1.3</version>
  </dependency>
 ```
 
