@@ -13,7 +13,11 @@ import org.eclipse.jetty.server.handler.ResourceHandler
 class XTRest {
 	public static val RESOURCE_BASE = 'src/main/webapp'
 	
-	def static start(Class<? extends Handler> controller, int port) {
+	def static start(Class<? extends Handler> controllerClass, int port) {
+		startInstance(controllerClass.newInstance, port)
+	}
+	
+	def static startInstance(Handler controller, int port) {
 		new Server(port) => [
 			
 			val resource_handler = new ResourceHandler => [
@@ -23,9 +27,8 @@ class XTRest {
 			]
 			
 			handler = new HandlerList => [
-				setHandlers(#[resource_handler, controller.newInstance])
+				setHandlers(#[resource_handler, controller])
 			]
-//			handler = controller.newInstance
 			start
 			join
 		]
