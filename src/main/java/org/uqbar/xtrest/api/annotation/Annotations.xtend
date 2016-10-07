@@ -16,10 +16,10 @@ import java.lang.annotation.RetentionPolicy
  * 
  * There's an annotation for each HTTP verb (or method): 
  * 
- * @link Get
- * @link Post
- * @link Put
- * @link Delete
+ * {@link Get}
+ * {@link Post}
+ * {@link Put}
+ * {@link Delete}
  * 
  * @author jfernandes
  */

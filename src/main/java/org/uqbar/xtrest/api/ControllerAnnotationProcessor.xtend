@@ -33,9 +33,11 @@ import org.uqbar.xtrest.api.annotation.Body
  * For each of them it generates something like
  * 
  * <pre>
- * if (annotation.pattern.matches(url) && request.isVerb(annotation.verb) {
+ * <code>
+ * if (annotation.pattern.matches(url) {@literal &&} request.isVerb(annotation.verb) {
  * 		this.xxxxx(url, baseRequest, request, response)
  * }
+ * </code>
  * </pre>
  * 
  * Where "xxx" is the name of the original method.
@@ -48,13 +50,17 @@ import org.uqbar.xtrest.api.annotation.Body
  * Example:
  * 
  * <pre>
- * 	@Get("/books/:id")
+ * <code>
+ * 	{@literal @}Get("/books/:id")
  *  def getBook()
+ * </code>
  * </pre>
  * 
  * Will actually be transformed to a method
  * <pre>
+ * <code>
  *   public Result getBook(String id, String url, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
+ * </code>
  * </pre>
  *
  * <h3>HTTP Parameters</h3>
@@ -62,8 +68,10 @@ import org.uqbar.xtrest.api.annotation.Body
  * In case you need to handle incoming HTTP parameters then you just need
  * to declare them as method parameters. They will be kept in the generated method.
  * <pre>
- * 	@Get("/books")
+ * <code>
+ * 	{@literal @}Get("/books")
  *  def getBook(String id)
+ * </code>
  * </pre>
  * 
  * Will have the same effect as the previous example.

@@ -16,6 +16,9 @@ class ResultCombinators {
 
 	/**
 	 * Adapts a closure into the Result interface.
+	 *
+	 * @param responseConfigurer the configurer
+	 * @return an instance of Result
 	 */
 	def static result((HttpServletResponse)=>void responseConfigurer) {
 		new Result() {

@@ -3,7 +3,7 @@ package org.uqbar.xtrest.http
 /**
  * Holds all the known mime types (content type header)
  * 
- * @jfernandes
+ * @author jfernandes
  */
 class ContentType {
 	
