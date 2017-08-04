@@ -13,7 +13,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
  */
 class XTRest {
 	private static val DEFAULT_RESOURCE_PATH = 'src/main/webapp'
-	
+ 	
 	@Accessors static String resourcePath = DEFAULT_RESOURCE_PATH 
 
 	def static start(Class<? extends Handler> controllerClass, int port) {
