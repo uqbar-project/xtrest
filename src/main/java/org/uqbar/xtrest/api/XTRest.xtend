@@ -14,19 +14,12 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class XTRest {
 	private static val DEFAULT_RESOURCE_PATH = 'src/main/webapp'
 	
-	static String resourcePath = DEFAULT_RESOURCE_PATH 
+	@Accessors static String resourcePath = DEFAULT_RESOURCE_PATH 
 
-	def static getResourcePath() { resourcePath }
-	
 	def static start(Class<? extends Handler> controllerClass, int port) {
 		startInstance(controllerClass.newInstance, port)
 	}
 	
-	def static start(Class<? extends Handler> controllerClass, int port, String resourceBase) {
-		resourcePath = resourceBase
-		start(controllerClass, port)
-	}
-
 	def static startInstance(Handler controller, int port) {
 		new Server(port) => [
 			
