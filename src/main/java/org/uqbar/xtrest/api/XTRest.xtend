@@ -4,6 +4,7 @@ import org.eclipse.jetty.server.Handler
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.handler.HandlerList
 import org.eclipse.jetty.server.handler.ResourceHandler
+import org.eclipse.xtend.lib.annotations.Accessors
 
 /**
  * Main program class
@@ -11,19 +12,28 @@ import org.eclipse.jetty.server.handler.ResourceHandler
  * listening for requests and calling you controllers.
  */
 class XTRest {
-	public static val RESOURCE_BASE = 'src/main/webapp'
+	private static val DEFAULT_RESOURCE_PATH = 'src/main/webapp'
+	
+	static String resourcePath = DEFAULT_RESOURCE_PATH 
+
+	def static getResourcePath() { resourcePath }
 	
 	def static start(Class<? extends Handler> controllerClass, int port) {
 		startInstance(controllerClass.newInstance, port)
 	}
 	
+	def static start(Class<? extends Handler> controllerClass, int port, String resourceBase) {
+		resourcePath = resourceBase
+		start(controllerClass, port)
+	}
+
 	def static startInstance(Handler controller, int port) {
 		new Server(port) => [
 			
 			val resource_handler = new ResourceHandler => [
 		        directoriesListed = true
 		        welcomeFiles = #['index.html']
-	    	    resourceBase = RESOURCE_BASE
+	    	    resourceBase = resourcePath
 			]
 			
 			handler = new HandlerList => [

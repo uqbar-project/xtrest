@@ -63,7 +63,7 @@ abstract class ResultFactory extends AbstractHandler {
 		// eventually we should have pluggable template engines
 		// being able to support differents
 		ok >> [response | 
-			val reader = Resource.newResource(XTRest.RESOURCE_BASE + '/' + templatePath).readableByteChannel
+			val reader = Resource.newResource(XTRest.resourcePath + '/' + templatePath).readableByteChannel
 			val template = Mustache.compiler.compile(Channels.newReader(reader, 'UTF-8'))
 			template.execute(data, response.writer)
 		]
