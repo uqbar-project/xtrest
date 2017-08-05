@@ -3,9 +3,9 @@ package org.uqbar.xtrest.json
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.math.BigDecimal
-import java.text.ParseException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Map
 
 /**
@@ -16,6 +16,8 @@ import java.util.Map
  * so they can be used nicely in your controller class.
  * 
  * @author jfernandes
+ * @author dodain - added extension method to retrieve value of certain properties
+ * 
  */
 class JSONUtils {
 	val mapper = new ObjectMapper()
@@ -61,8 +63,8 @@ class JSONUtils {
 	def LocalDate getPropertyAsDate(String json, String property, String dateFormat) {
 		var LocalDate result = null
 		try {
-			LocalDate.parse(getPropertyValue(json, property), DateTimeFormatter.ofPattern(dateFormat))
-		} catch (ParseException e) {
+			result = LocalDate.parse(getPropertyValue(json, property), DateTimeFormatter.ofPattern(dateFormat))
+		} catch (DateTimeParseException e) {
 		}
 		result
 	}
