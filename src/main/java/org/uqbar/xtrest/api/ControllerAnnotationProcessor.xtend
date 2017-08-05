@@ -88,7 +88,8 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 			createHandlerMethod(clazz, context)
 			addParametersToActionMethods(clazz, context)
 			
-			generatePageNotFound(clazz, context)
+			// TODO : Armar un handler que lo que haga sea esto, mandar un generatePageNotFound
+			//generatePageNotFound(clazz, context)
 		}
 	}
 	
@@ -144,7 +145,7 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 					}
 				}
 				«ENDFOR»
-				this.pageNotFound(baseRequest, request, response);
+				//this.pageNotFound(baseRequest, request, response);
 			''']
 		]
 	}

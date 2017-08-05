@@ -16,11 +16,11 @@ class XTRest {
  	
 	@Accessors static String resourcePath = DEFAULT_RESOURCE_PATH 
 
-	def static start(Class<? extends Handler> controllerClass, int port) {
-		startInstance(controllerClass.newInstance, port)
+	def static start(int port, Class<? extends Handler>... controllersClass) {
+		startInstance(port, controllersClass.map [ newInstance ])
 	}
 	
-	def static startInstance(Handler controller, int port) {
+	def static startInstance(int port, Handler... controllers) {
 		new Server(port) => [
 			
 			val resource_handler = new ResourceHandler => [
@@ -29,9 +29,13 @@ class XTRest {
 	    	    resourceBase = resourcePath
 			]
 			
+			val handlers = <Handler>newArrayList(resource_handler)
+			handlers.addAll(controllers)
+			
 			handler = new HandlerList => [
-				setHandlers(#[resource_handler, controller])
+				setHandlers(handlers)
 			]
+			
 			start
 			join
 		]
