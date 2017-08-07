@@ -15,23 +15,26 @@ import org.uqbar.xtrest.api.annotation.Delete
 import org.uqbar.xtrest.api.annotation.Get
 import org.uqbar.xtrest.api.annotation.Post
 import org.uqbar.xtrest.api.annotation.Put
+import org.uqbar.xtrest.i18n.Messages
 
 class ServiceNotFoundHandler extends HandlerWrapper {
 
 	List<Class> controllers
-
+	
 	new(List<Class> controllers) {
 		this.controllers = controllers
 	}
 
 	override handle(String target, Request baseRequest, HttpServletRequest request,
 		HttpServletResponse response) throws IOException, ServletException {
+		response.addHeader("Access-Control-Allow-Origin", "*")
+		baseRequest.handled = true
 		response.writer.write(
 			'''
 				<html>
 					<head>
 						<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-						<title>XtRest - Service Not Found!</title>
+						<title>XTRest Server message</title>
 					    <style>
 					      body {
 					        font-family: Roboto, serif;
@@ -65,11 +68,9 @@ class ServiceNotFoundHandler extends HandlerWrapper {
 					    </style>
 					</head> 
 				<body>
-					<h1>XTrest<h1>
+					<h1>XTRest - «Messages.getMessage(Messages.SERVICE_NOT_FOUND_MAIN_TITLE)»<h1>
 					<hr>
-					<h2>Service Not Found !</h2>
-					<hr>
-					<p>Supported resources:</p>
+					<h2>«Messages.getMessage(Messages.SERVICE_NOT_FOUND_SUPPORTED_RESOURCES)»</h2>
 					
 					<table>
 						<thead>

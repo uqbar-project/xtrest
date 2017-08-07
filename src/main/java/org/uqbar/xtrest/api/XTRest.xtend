@@ -7,6 +7,8 @@ import org.eclipse.jetty.server.handler.HandlerList
 import org.eclipse.jetty.server.handler.ResourceHandler
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.xtrest.controller.ServiceNotFoundHandler
+import org.uqbar.xtrest.exceptions.XTRestException
+import org.uqbar.xtrest.i18n.Messages
 
 /**
  * Main program class
@@ -19,6 +21,9 @@ class XTRest {
 	@Accessors static String resourcePath = DEFAULT_RESOURCE_PATH 
 
 	def static start(int port, Class<? extends Handler>... controllersClass) {
+		if (controllersClass.isEmpty) {
+			throw new XTRestException(Messages.getMessage(Messages.SERVER_NO_CONTROLLER_DEFINED))
+		} 
 		startInstance(port, controllersClass.map [ newInstance ])
 	}
 	

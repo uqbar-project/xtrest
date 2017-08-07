@@ -87,9 +87,6 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 			
 			createHandlerMethod(clazz, context)
 			addParametersToActionMethods(clazz, context)
-			
-			// TODO : Armar un handler que lo que haga sea esto, mandar un generatePageNotFound en base a todos los handlers anteriores
-			//generatePageNotFound(clazz, context)
 		}
 	}
 	
