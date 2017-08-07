@@ -1,7 +1,9 @@
 package org.uqbar.xtrest.json
 
 import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -20,7 +22,10 @@ import java.util.Map
  * 
  */
 class JSONUtils {
-	val mapper = new ObjectMapper()
+	val mapper = new ObjectMapper() => [
+		configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+		configure(SerializationFeature.INDENT_OUTPUT, true)
+	]
 	
 	def toJson(Object obj) {
 		mapper.writeValueAsString(obj)
