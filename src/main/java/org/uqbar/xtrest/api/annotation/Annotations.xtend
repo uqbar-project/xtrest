@@ -35,20 +35,22 @@ annotation Controller {
 // *****************************************
 
 @Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
 annotation Get { String value }
 
 @Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
 annotation Post { String value }
 
-@Target(ElementType.PARAMETER)
-annotation Body {}
-
 @Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
 annotation Put { String value }
 
 @Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
 annotation Delete { String value }
 
-// TODO
-// PUT
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+annotation Body {}
 

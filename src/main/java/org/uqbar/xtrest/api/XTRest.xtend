@@ -1,9 +1,14 @@
 package org.uqbar.xtrest.api
 
+import java.util.ArrayList
 import org.eclipse.jetty.server.Handler
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.handler.HandlerList
 import org.eclipse.jetty.server.handler.ResourceHandler
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.uqbar.xtrest.controller.ServiceNotFoundHandler
+import org.uqbar.xtrest.exceptions.XTRestException
+import org.uqbar.xtrest.i18n.Messages
 
 /**
  * Main program class
@@ -11,24 +16,41 @@ import org.eclipse.jetty.server.handler.ResourceHandler
  * listening for requests and calling you controllers.
  */
 class XTRest {
-	public static val RESOURCE_BASE = 'src/main/webapp'
-	
-	def static start(Class<? extends Handler> controllerClass, int port) {
-		startInstance(controllerClass.newInstance, port)
+	private static val DEFAULT_RESOURCE_PATH = 'src/main/webapp'
+ 	
+	@Accessors static String resourcePath = DEFAULT_RESOURCE_PATH 
+
+	def static start(int port, Class<? extends Handler>... controllersClass) {
+		if (controllersClass.isEmpty) {
+			throw new XTRestException(Messages.getMessage(Messages.SERVER_NO_CONTROLLER_DEFINED))
+		}
+		controllersClass.forEach [ it.validateController ] 
+		startInstance(port, controllersClass.map [ newInstance ])
+	}
+
+	def static void validateController(Class<? extends Handler> controllerClass) {
+		if (!controllerClass.constructors.exists [ constructor | constructor.parameters.isEmpty ]) {
+			throw new XTRestException(Messages.getMessage(Messages.SERVER_CONTROLLER_HAS_NO_DEFAULT_CONSTRUCTOR) + ": " + controllerClass.name)
+		}
 	}
 	
-	def static startInstance(Handler controller, int port) {
+	def static startInstance(int port, Handler... controllers) {
 		new Server(port) => [
 			
 			val resource_handler = new ResourceHandler => [
 		        directoriesListed = true
 		        welcomeFiles = #['index.html']
-	    	    resourceBase = RESOURCE_BASE
+	    	    resourceBase = resourcePath
 			]
 			
 			handler = new HandlerList => [
-				setHandlers(#[resource_handler, controller])
+				setHandlers(new ArrayList<Handler> => [
+					add(resource_handler)
+					addAll(controllers)
+					add(new ServiceNotFoundHandler(controllers.map [ it.class ]))
+				])
 			]
+			
 			start
 			join
 		]

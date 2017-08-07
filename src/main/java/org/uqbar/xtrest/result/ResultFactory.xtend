@@ -1,7 +1,6 @@
 package org.uqbar.xtrest.result
 
 import com.samskivert.mustache.Mustache
-
 import java.nio.channels.Channels
 import javax.servlet.http.HttpServletRequest
 import org.eclipse.jetty.server.handler.AbstractHandler
@@ -63,7 +62,7 @@ abstract class ResultFactory extends AbstractHandler {
 		// eventually we should have pluggable template engines
 		// being able to support differents
 		ok >> [response | 
-			val reader = Resource.newResource(XTRest.RESOURCE_BASE + '/' + templatePath).readableByteChannel
+			val reader = Resource.newResource(XTRest.getResourcePath + '/' + templatePath).readableByteChannel
 			val template = Mustache.compiler.compile(Channels.newReader(reader, 'UTF-8'))
 			template.execute(data, response.writer)
 		]

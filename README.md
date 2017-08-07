@@ -1,8 +1,7 @@
 [![Build Status](https://travis-ci.org/uqbar-project/xtrest.svg?branch=master)](https://travis-ci.org/uqbar-project/xtrest)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.uqbar/xtrest/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.uqbar/xtrest/)
 
-xtrest
-======
+# xtrest
 
 XTend Rest Mini-Framework: create REST HTTP JSON API's with the power of [Xtend language](http://www.eclipse.org/xtend/).
 
@@ -11,10 +10,10 @@ it in order to fully support all HTTP methods.
 
 Originally it was designed in order to create just REST API's, but eventually it could evolve into a full MVC
 "action-based" web frameworks, once template engines are included.
+
 I will then get similar to [Padrino](http://www.padrinorb.com), [Sinatra](http://www.sinatrarb.com), [Play2](https://www.playframework.com), etc.
 
-REST JSON API Example
-======
+# REST JSON API Example
 
 The following example controller implements a REST JSON webservice for books.
 
@@ -60,7 +59,7 @@ class LibrosController {
     }
 	
 	def static void main(String[] args) {
-		XTRest.start(LibrosController, 9000)
+		XTRest.start(9000, LibrosController)
 	}
 	
 }
@@ -72,14 +71,40 @@ To test it:
 curl http://localhost:9000/libros
 ```
 
-Should give you the following output:
+Should give you an output like the following:
 
-```javascript
-[{"id":0,"titulo":"Las venas abiertas de Am?rica Latina","autor":"Eduardo Galeano"},{"id":1,"titulo":"Guerra y Paz","autor":"Le?n Tolstoi"},{"id":2,"titulo":"Patas Arriba","autor":"Eduardo Galeano"},{"id":3,"titulo":"El f?tbol a sol y a sombra","autor":"Eduardo Galeano"},{"id":4,"titulo":"Historia del siglo XX","autor":"Eric Hobsbawm"},{"id":5,"titulo":"Ficciones","autor":"Jorge Luis Borges"},{"id":6,"titulo":"El Aleph","autor":"Jorge Luis Borges"},{"id":7,"titulo":"La invenci?n de Morel","autor":"Adolfo Bioy Casares"},{"id":8,"titulo":"Rayuela","autor":"Julio Cort?zar"},{"id":9,"titulo":"El bar?n rampante","autor":"Italo Calvino"},{"id":10,"titulo":"El vizconde demediado","autor":"Italo Calvino"},{"id":11,"titulo":"100 a?os de soledad","autor":"Gabriel Garc?a M?rquez"},{"id":12,"titulo":"Un d?a en la vida de Ivan Denisovich","autor":"Alexander Solyenitsin"},{"id":13,"titulo":"El d?a del arquero","autor":"Juan Sasturain"}]
+```json
+[
+ {
+	"id": 0,
+	"titulo" : "Las venas abiertas de America Latina",
+	"autor": "Eduardo Galeano"
+ },
+ {
+ 	"id":1,
+ 	"titulo" : "Guerra y Paz",
+ 	"autor":"Leon Tolstoi"}
+ ,
+ ...
+]
 ```
 
-Sample Webapp with server-side templating
-=======
+## Multiple controllers
+
+Since 1.0.0 version you can add define several controllers and use it when starting jetty server:
+
+```xtend
+class App {
+	
+	def static void main(String[] args) {
+		XTRest.start(9000, TareasController, UsuariosController, AnyOtherController)
+	}
+	
+}
+```
+
+
+# Sample Webapp with server-side templating
 
 This example shows that xtrest can even be used for whole MVC "server-centered" apps, where
 the server generates HTML using [JMustache](https://github.com/samskivert/jmustache) templating engine
@@ -107,7 +132,7 @@ class ConversorController {
 	}
 	
 	def static void main(String[] args) {
-		XTRest.start(ConversorController, 9000)
+		XTRest.start(9000, ConversorController)
 	}
 	
 }
@@ -137,8 +162,7 @@ And then the template:
 ```
 
 
-Usage
-=======
+# Usage
 
 You need to add the following maven dependency:
 
@@ -146,13 +170,32 @@ You need to add the following maven dependency:
  <dependency>
 	<groupId>org.uqbar</groupId>
 	<artifactId>xtrest</artifactId>
-  	<version>0.1.6</version>
+  	<version>1.0.0</version>
  </dependency>
 ```
 
+# What's new
 
-Documentation
-=======
+You can see here a list of [issues fixed in 1.0.0 version](https://github.com/uqbar-project/xtrest/milestone/1) (released in August 2017)
+
+- Now XTRest server supports a list of controllers (as many as you want)
+
+- Controllers are validated: they should have an empty constructor
+
+- JsonIgnoreProperties is no longer required for classes when serializing from JSON
+
+- New conversion from JSON to a map, and also new conversion methods for integers, decimals and dates  
+
+- Services with JSON responses are prettyfied
+
+- Enhanced and internationalized html page when a service is not found
+
+- Internationalization of error messages
+
+- You can configure where is your application client located (eg: "src/main/webapp" or "src/main/resources")
+	
+
+# Documentation
 
 // TODO:
 * HttpHandler
@@ -167,15 +210,12 @@ Documentation
 * @Body parameter
 * notfound page
 
-TODO
-======
+# TODO
 
-There's a list of things that are still not supported but we will implement shortly:
+There's a list of things that are still not supported but we will implement soon:
+
 * Filters
-* Parameters type conversions (only strings supported right now)
 * Variable type conversions (only string supported. Also as it's not explicitely declared as a method param, there no place to declare the type. Proposed solution
 "/libros/:(id|int)"
-* Handler logic to respond with a pretty HTML including the list of supported methods and URLs whenever you don't hit any. (like play2 does https://www.playframework.com/documentation/2.0/JavaRouting)
 * Default values for parameters / variables 
 
- 
