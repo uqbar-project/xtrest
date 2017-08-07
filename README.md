@@ -176,7 +176,7 @@ You need to add the following maven dependency:
 
 # What's new
 
-You can see here a list of [issues fixed in 1.0.0 version](https://github.com/uqbar-project/xtrest/milestone/1) (released in August 2017)
+You can see here a list of [issues fixed in 1.0.0 version](https://github.com/uqbar-project/xtrest/milestone/1?closed=1) (released in August 2017)
 
 - Now XTRest server supports a list of controllers (as many as you want)
 
