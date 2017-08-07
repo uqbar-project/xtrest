@@ -159,7 +159,7 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 		val verbAnnotations = verbs.map[findTypeGlobally]
 		verbAnnotations.map[annotation |
 			clazz.declaredMethods.filter [findAnnotation(annotation)?.getValue('value') != null]
-		].flatten
+		].flatten.sortBy [ it.getVariables(context).size ]
 	}
 	
 	private def getUrl(MutableMethodDeclaration m, extension TransformationContext context) {
