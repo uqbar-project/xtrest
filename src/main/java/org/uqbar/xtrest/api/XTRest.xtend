@@ -23,8 +23,15 @@ class XTRest {
 	def static start(int port, Class<? extends Handler>... controllersClass) {
 		if (controllersClass.isEmpty) {
 			throw new XTRestException(Messages.getMessage(Messages.SERVER_NO_CONTROLLER_DEFINED))
-		} 
+		}
+		controllersClass.forEach [ it.validateController ] 
 		startInstance(port, controllersClass.map [ newInstance ])
+	}
+
+	def static void validateController(Class<? extends Handler> controllerClass) {
+		if (!controllerClass.constructors.exists [ constructor | constructor.parameters.isEmpty ]) {
+			throw new XTRestException(Messages.getMessage(Messages.SERVER_CONTROLLER_HAS_NO_DEFAULT_CONSTRUCTOR) + ": " + controllerClass.name)
+		}
 	}
 	
 	def static startInstance(int port, Handler... controllers) {

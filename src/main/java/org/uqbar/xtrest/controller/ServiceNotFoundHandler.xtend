@@ -75,8 +75,8 @@ class ServiceNotFoundHandler extends HandlerWrapper {
 					<table>
 						<thead>
 							<tr>
-								<th>Verb</th>
-								<th>URL</th>
+								<th>«Messages.getMessage(Messages.SERVICE_NOT_FOUND_TH_VERB)»</th>
+								<th>«Messages.getMessage(Messages.SERVICE_NOT_FOUND_TH_URL)»</th>
 							</tr>
 						</thead>
 						<tbody>

@@ -174,6 +174,26 @@ You need to add the following maven dependency:
  </dependency>
 ```
 
+# What's new
+
+You can see here a list of [issues fixed in 1.0.0 version](https://github.com/uqbar-project/xtrest/milestone/1) (released in August 2017)
+
+- Now XTRest server supports a list of controllers (as many as you want)
+
+- Controllers are validated: they should have an empty constructor
+
+- JsonIgnoreProperties is no longer required for classes when serializing from JSON
+
+- New conversion from JSON to a map, and also new conversion methods for integers, decimals and dates  
+
+- Services with JSON responses are prettyfied
+
+- Enhanced and internationalized html page when a service is not found
+
+- Internationalization of error messages
+
+- You can configure where is your application client located (eg: "src/main/webapp" or "src/main/resources")
+	
 
 # Documentation
 
@@ -192,12 +212,10 @@ You need to add the following maven dependency:
 
 # TODO
 
-There's a list of things that are still not supported but we will implement shortly:
+There's a list of things that are still not supported but we will implement soon:
 
 * Filters
-* Parameters type conversions (only strings supported right now)
 * Variable type conversions (only string supported. Also as it's not explicitely declared as a method param, there no place to declare the type. Proposed solution
 "/libros/:(id|int)"
-* Handler logic to respond with a pretty HTML including the list of supported methods and URLs whenever you don't hit any. (like play2 does https://www.playframework.com/documentation/2.0/JavaRouting)
 * Default values for parameters / variables 
 
