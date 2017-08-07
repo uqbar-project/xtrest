@@ -59,7 +59,7 @@ class LibrosController {
     }
 	
 	def static void main(String[] args) {
-		XTRest.start(LibrosController, 9000)
+		XTRest.start(9000, LibrosController)
 	}
 	
 }
@@ -71,11 +71,38 @@ To test it:
 curl http://localhost:9000/libros
 ```
 
-Should give you the following output:
+Should give you an output like the following:
 
 ```json
-[{"id":0,"titulo":"Las venas abiertas de Am?rica Latina","autor":"Eduardo Galeano"},{"id":1,"titulo":"Guerra y Paz","autor":"Le?n Tolstoi"},{"id":2,"titulo":"Patas Arriba","autor":"Eduardo Galeano"},{"id":3,"titulo":"El f?tbol a sol y a sombra","autor":"Eduardo Galeano"},{"id":4,"titulo":"Historia del siglo XX","autor":"Eric Hobsbawm"},{"id":5,"titulo":"Ficciones","autor":"Jorge Luis Borges"},{"id":6,"titulo":"El Aleph","autor":"Jorge Luis Borges"},{"id":7,"titulo":"La invenci?n de Morel","autor":"Adolfo Bioy Casares"},{"id":8,"titulo":"Rayuela","autor":"Julio Cort?zar"},{"id":9,"titulo":"El bar?n rampante","autor":"Italo Calvino"},{"id":10,"titulo":"El vizconde demediado","autor":"Italo Calvino"},{"id":11,"titulo":"100 a?os de soledad","autor":"Gabriel Garc?a M?rquez"},{"id":12,"titulo":"Un d?a en la vida de Ivan Denisovich","autor":"Alexander Solyenitsin"},{"id":13,"titulo":"El d?a del arquero","autor":"Juan Sasturain"}]
+[
+ {
+	"id": 0,
+	"titulo" : "Las venas abiertas de America Latina",
+	"autor": "Eduardo Galeano"
+ },
+ {
+ 	"id":1,
+ 	"titulo" : "Guerra y Paz",
+ 	"autor":"Leon Tolstoi"}
+ ,
+ ...
+]
 ```
+
+## Multiple controllers
+
+Since 1.0.0 version you can add define several controllers and use it when starting jetty server:
+
+```xtend
+class App {
+	
+	def static void main(String[] args) {
+		XTRest.start(9000, TareasController, UsuariosController, AnyOtherController)
+	}
+	
+}
+```
+
 
 # Sample Webapp with server-side templating
 
@@ -105,7 +132,7 @@ class ConversorController {
 	}
 	
 	def static void main(String[] args) {
-		XTRest.start(ConversorController, 9000)
+		XTRest.start(9000, ConversorController)
 	}
 	
 }
@@ -143,7 +170,7 @@ You need to add the following maven dependency:
  <dependency>
 	<groupId>org.uqbar</groupId>
 	<artifactId>xtrest</artifactId>
-  	<version>0.1.6</version>
+  	<version>1.0.0</version>
  </dependency>
 ```
 
@@ -166,6 +193,7 @@ You need to add the following maven dependency:
 # TODO
 
 There's a list of things that are still not supported but we will implement shortly:
+
 * Filters
 * Parameters type conversions (only strings supported right now)
 * Variable type conversions (only string supported. Also as it's not explicitely declared as a method param, there no place to declare the type. Proposed solution
@@ -173,4 +201,3 @@ There's a list of things that are still not supported but we will implement shor
 * Handler logic to respond with a pretty HTML including the list of supported methods and URLs whenever you don't hit any. (like play2 does https://www.playframework.com/documentation/2.0/JavaRouting)
 * Default values for parameters / variables 
 
- 
