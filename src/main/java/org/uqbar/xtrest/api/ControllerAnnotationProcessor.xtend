@@ -79,7 +79,7 @@ import org.uqbar.xtrest.api.annotation.Body
  * @author jfernandes
  */
 class ControllerAnnotationProcessor implements TransformationParticipant<MutableClassDeclaration> {
-	static val verbs = #[Get, Post, Delete, Put]
+	public static val verbs = #[Get, Post, Delete, Put]
 	
 	override doTransform(List<? extends MutableClassDeclaration> annotatedTargetElements, extension TransformationContext context) {
 		for (clazz : annotatedTargetElements) {
@@ -88,7 +88,7 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 			createHandlerMethod(clazz, context)
 			addParametersToActionMethods(clazz, context)
 			
-			// TODO : Armar un handler que lo que haga sea esto, mandar un generatePageNotFound
+			// TODO : Armar un handler que lo que haga sea esto, mandar un generatePageNotFound en base a todos los handlers anteriores
 			//generatePageNotFound(clazz, context)
 		}
 	}
@@ -153,43 +153,6 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 	def boolean isBodyParameter(MutableParameterDeclaration param, extension TransformationContext context) {
 		param.findAnnotation(findTypeGlobally(Body)) != null
 	}
-	
-	def generatePageNotFound(MutableClassDeclaration clazz, extension TransformationContext context) {
-		clazz.addMethod("pageNotFound", [
-			returnType = primitiveVoid
-			
-			addParameter('baseRequest', newTypeReference(Request)) 
-			addParameter('request', newTypeReference(HttpServletRequest)) 
-			addParameter('response', newTypeReference(HttpServletResponse))
-			
-			setExceptions(newTypeReference(IOException), newTypeReference(ServletException))
-			
-			body = ['''
-				response.getWriter().write(
-					"<html><head><title>XtRest - Page Not Found!</title></head>" 
-					+ "<body>"
-					+ "	<h1>Page Not Found !</h1>"
-					+ "	Supported resources:"
-					+ "	<table>"
-					+ "		<thead><tr><th>Verb</th><th>URL</th><th>Parameters</th></tr></thead>"
-					+ "		<tbody>"
-					«FOR m : clazz.httpMethods(context)»
-						+ "			<tr>"
-						+ "				<td>«m.httpAnnotation(context).simpleName.toUpperCase»</td>"
-						+ "				<td>«m.getUrl(context)»</td>"
-						+ "				<td>«m.httpParameters.map[simpleName].join(', ')»</td>"
-						+ "			</tr>"
-					«ENDFOR»
-					+ "		</tbody>"
-					+ "	</table>"
-					+ "</body>"
-				);
-				response.setStatus(404);
-				baseRequest.setHandled(true);
-			''']
-		])
-	}
-	
 	
 	// ***************************************************
 	// ** Utility methods for interpreting annotations

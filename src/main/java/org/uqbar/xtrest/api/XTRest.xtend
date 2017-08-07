@@ -1,10 +1,12 @@
 package org.uqbar.xtrest.api
 
+import java.util.ArrayList
 import org.eclipse.jetty.server.Handler
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.handler.HandlerList
 import org.eclipse.jetty.server.handler.ResourceHandler
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.uqbar.xtrest.controller.ServiceNotFoundHandler
 
 /**
  * Main program class
@@ -29,11 +31,12 @@ class XTRest {
 	    	    resourceBase = resourcePath
 			]
 			
-			val handlers = <Handler>newArrayList(resource_handler)
-			handlers.addAll(controllers)
-			
 			handler = new HandlerList => [
-				setHandlers(handlers)
+				setHandlers(new ArrayList<Handler> => [
+					add(resource_handler)
+					addAll(controllers)
+					add(new ServiceNotFoundHandler(controllers.map [ it.class ]))
+				])
 			]
 			
 			start
