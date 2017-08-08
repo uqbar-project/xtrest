@@ -29,14 +29,14 @@ class LibrosController {
 	
 	@Get("/libros")
 	def libros() {
-		response.contentType = "application/json"
-    	val libros = Biblioteca.instance.todasLasInstancias
+		response.contentType = ContentType.APPLICATION_JSON
+    		val libros = Biblioteca.instance.todasLasInstancias
 		ok(libros.toJson)
 	}
 	
 	@Get('/libros/:id')
 	def libro() {
-		response.contentType = "application/json"
+		response.contentType = ContentType.APPLICATION_JSON
 		val iId = Integer.valueOf(id)
     	try {
     		ok(Biblioteca.instance.getLibro(iId).toJson)
@@ -49,6 +49,7 @@ class LibrosController {
     @Delete('/libros/:id')
     def eliminarLibro() {
     	try {
+    		response.contentType = ContentType.APPLICATION_JSON
     		val iId = Integer.valueOf(id)
     		Biblioteca.instance.eliminarLibro(iId)
     		ok("{ status : 'ok' }");
@@ -83,9 +84,8 @@ Should give you an output like the following:
  {
  	"id":1,
  	"titulo" : "Guerra y Paz",
- 	"autor":"Leon Tolstoi"}
- ,
- ...
+ 	"autor":"Leon Tolstoi"
+ }
 ]
 ```
 
