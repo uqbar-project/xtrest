@@ -193,7 +193,8 @@ You can see here a list of [issues fixed in 1.0.0 version](https://github.com/uq
 - Internationalization of error messages
 
 - You can configure where is your application client located (eg: "src/main/webapp" or "src/main/resources")
-	
+
+- Using last jetty version (9.2.22.v20170606), upgraded dependencies	
 
 # Documentation
 
