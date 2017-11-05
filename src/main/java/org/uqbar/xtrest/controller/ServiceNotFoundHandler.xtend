@@ -27,7 +27,6 @@ class ServiceNotFoundHandler extends HandlerWrapper {
 
 	override handle(String target, Request baseRequest, HttpServletRequest request,
 		HttpServletResponse response) throws IOException, ServletException {
-		response.addHeader("Access-Control-Allow-Origin", "*")
 		baseRequest.handled = true
 		response.writer.write(
 			'''

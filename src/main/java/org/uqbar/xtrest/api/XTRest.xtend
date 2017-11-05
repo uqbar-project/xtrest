@@ -9,6 +9,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.xtrest.controller.ServiceNotFoundHandler
 import org.uqbar.xtrest.exceptions.XTRestException
 import org.uqbar.xtrest.i18n.Messages
+import org.uqbar.xtrest.controller.CORSHandler
 
 /**
  * Main program class
@@ -36,7 +37,6 @@ class XTRest {
 	
 	def static startInstance(int port, Handler... controllers) {
 		new Server(port) => [
-			
 			val resource_handler = new ResourceHandler => [
 		        directoriesListed = true
 		        welcomeFiles = #['index.html']
@@ -47,6 +47,7 @@ class XTRest {
 				setHandlers(new ArrayList<Handler> => [
 					add(resource_handler)
 					addAll(controllers)
+					add(new CORSHandler)
 					add(new ServiceNotFoundHandler(controllers.map [ it.class ]))
 				])
 			]
