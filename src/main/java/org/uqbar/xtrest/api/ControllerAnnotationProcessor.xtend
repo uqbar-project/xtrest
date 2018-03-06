@@ -132,6 +132,8 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 							String «v» = matcher.group(«i=i+1»);
 						«ENDFOR»
 						
+				        // set default content type (it can be overridden during next call)
+				        response.setContentType("application/json");
 						
 					    «toJavaCode(newTypeReference(Result))» result = «m.simpleName»(«m.httpParameters.filter[!variables.contains(simpleName)].map[simpleName + ', '].join»«variables.map[it+', '].join»target, baseRequest, request, response);
 					    result.process(response);
