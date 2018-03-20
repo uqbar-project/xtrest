@@ -176,7 +176,7 @@ You need to add the following maven dependency:
 
 # What's new
 
-You can see here a list of [issues fixed in 1.1.0 version](https://github.com/uqbar-project/xtrest/milestone/2) (released in March 2018)
+You can see here a list of [issues fixed in 1.1.0 version](https://github.com/uqbar-project/xtrest/milestone/2?closed=1) (released in March 2018)
 
 - New [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) handler added by default
 
