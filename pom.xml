@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uqbar</groupId>
 	<artifactId>xtrest</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.1</version>
 
 	<parent>
 		<groupId>org.uqbar-project</groupId>
@@ -77,4 +77,8 @@
 			</plugin>
 		</plugins>
 	</build>
+
+  <scm>
+    <tag>xtrest-1.1.1</tag>
+  </scm>
 </project>
