@@ -8,7 +8,6 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.junit.Assert
 import org.junit.Test
 import org.uqbar.xtrest.json.JSONUtils
-import java.util.ArrayList
 
 @Accessors
 class Person {
