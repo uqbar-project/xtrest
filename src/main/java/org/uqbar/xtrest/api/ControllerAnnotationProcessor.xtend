@@ -150,7 +150,7 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 	}
 	
 	def boolean isBodyParameter(MutableParameterDeclaration param, extension TransformationContext context) {
-		param.findAnnotation(findTypeGlobally(Body)) != null
+		param.findAnnotation(findTypeGlobally(Body)) !== null
 	}
 	
 	// ***************************************************
@@ -160,7 +160,7 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 	def httpMethods(MutableClassDeclaration clazz, extension TransformationContext context) {
 		val verbAnnotations = verbs.map[findTypeGlobally]
 		verbAnnotations.map[annotation |
-			clazz.declaredMethods.filter [findAnnotation(annotation)?.getValue('value') != null]
+			clazz.declaredMethods.filter [findAnnotation(annotation)?.getValue('value') !== null]
 		].flatten.sortBy [ it.getVariables(context).size ]
 	}
 	
@@ -184,7 +184,7 @@ class ControllerAnnotationProcessor implements TransformationParticipant<Mutable
 	
 	def Type httpAnnotation(MutableMethodDeclaration m, extension TransformationContext context) {
 		val verbAnnotations = verbs.map[findTypeGlobally]
-		verbAnnotations.findFirst[m.findAnnotation(it) != null]
+		verbAnnotations.findFirst[m.findAnnotation(it) !== null]
 	}
 	
 	private def getVariablesAndGroupedPattern(MutableMethodDeclaration m, extension TransformationContext context) {
