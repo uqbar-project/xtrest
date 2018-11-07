@@ -19,9 +19,9 @@ import org.uqbar.xtrest.i18n.Messages
 
 class ServiceNotFoundHandler extends HandlerWrapper {
 
-	List<Class> controllers
+	List<Class<?>> controllers
 	
-	new(List<Class> controllers) {
+	new(List<Class<?>> controllers) {
 		this.controllers = controllers
 	}
 
