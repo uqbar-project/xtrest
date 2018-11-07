@@ -9,6 +9,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.ArrayList
+import java.util.List
 import java.util.Map
 
 /**
@@ -48,9 +49,9 @@ class JSONUtils {
 	def <T> getPropertyValueAsType(String json, String property, Class<T> expectedType) {
 		mapper.convertValue(json.properties.get(property), expectedType)
 	}
-	
-	def <T> getPropertyAsList(String json, String property, Class<T> expectedTypeInList){
-		json.getPropertyValueAsType(property,ArrayList).map([x | mapper.convertValue(x,expectedTypeInList)])
+
+	def <T> List<T> getPropertyAsList(String json, String property, Class<T> expectedTypeInList) {
+		json.getPropertyValueAsType(property, ArrayList).map([x|mapper.convertValue(x, expectedTypeInList)])
 	}
 
 	def Integer getPropertyAsInteger(String json, String property) {
