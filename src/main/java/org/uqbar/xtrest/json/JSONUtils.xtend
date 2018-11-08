@@ -8,6 +8,8 @@ import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.util.ArrayList
+import java.util.List
 import java.util.Map
 
 /**
@@ -26,21 +28,30 @@ class JSONUtils {
 		configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 		configure(SerializationFeature.INDENT_OUTPUT, true)
 	]
-	
+
 	def toJson(Object obj) {
 		mapper.writeValueAsString(obj)
 	}
-	
+
 	def <T> fromJson(String json, Class<T> expectedType) {
 		mapper.readValue(json, expectedType)
 	}
-	
-	def Map<String, String> getProperties(String json) {
-		mapper.readValue(json, new TypeReference<Map<String, String>>() {})
+
+	def Map<String, Object> getProperties(String json) {
+		mapper.readValue(json, new TypeReference<Map<String, Object>>() {
+		})
 	}
 
 	def String getPropertyValue(String json, String property) {
-		json.properties.get(property)
+		json.properties.get(property).toString
+	}
+
+	def <T> getPropertyValueAsType(String json, String property, Class<T> expectedType) {
+		mapper.convertValue(json.properties.get(property), expectedType)
+	}
+
+	def <T> List<T> getPropertyAsList(String json, String property, Class<T> expectedTypeInList) {
+		json.getPropertyValueAsType(property, ArrayList).map([element|mapper.convertValue(element, expectedTypeInList)])
 	}
 
 	def Integer getPropertyAsInteger(String json, String property) {
@@ -51,7 +62,7 @@ class JSONUtils {
 		}
 		result
 	}
-	
+
 	def BigDecimal getPropertyAsDecimal(String json, String property) {
 		var BigDecimal result = null
 		try {
@@ -60,11 +71,11 @@ class JSONUtils {
 		}
 		result
 	}
-	
+
 	def LocalDate getPropertyAsDate(String json, String property) {
-		getPropertyAsDate(json, property, "dd/MM/yyyy")	
+		getPropertyAsDate(json, property, "dd/MM/yyyy")
 	}
-	
+
 	def LocalDate getPropertyAsDate(String json, String property, String dateFormat) {
 		var LocalDate result = null
 		try {
@@ -73,5 +84,4 @@ class JSONUtils {
 		}
 		result
 	}
-	
 }
