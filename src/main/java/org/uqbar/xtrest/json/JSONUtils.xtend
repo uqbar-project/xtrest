@@ -51,7 +51,7 @@ class JSONUtils {
 	}
 
 	def <T> List<T> getPropertyAsList(String json, String property, Class<T> expectedTypeInList) {
-		json.getPropertyValueAsType(property, ArrayList).map([x|mapper.convertValue(x, expectedTypeInList)])
+		json.getPropertyValueAsType(property, ArrayList).map([element|mapper.convertValue(element, expectedTypeInList)])
 	}
 
 	def Integer getPropertyAsInteger(String json, String property) {
