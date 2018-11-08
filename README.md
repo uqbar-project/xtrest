@@ -170,7 +170,7 @@ You need to add the following maven dependency:
  <dependency>
     <groupId>org.uqbar</groupId>
     <artifactId>xtrest</artifactId>
-    <version>1.1.3</version>
+    <version>1.1.4</version>
  </dependency>
 ```
 
